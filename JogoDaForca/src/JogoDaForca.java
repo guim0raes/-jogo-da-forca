@@ -1,33 +1,36 @@
 import java.util.Scanner;
 public class JogoDaForca {
-
+	
+	String[][] palavras = new String[51][51];
+	
 	public static void main(String[] args) {
 		int option;
+		JogoDaForca game = new JogoDaForca();
 		
 		do {
-		option = DisplayMenu();
+		option = game.DisplayMenu();
 			switch (option){
 			case 1: 
-				GerenciarTemas();
+				game.GerenciarTemas();
 				break;
 			case 2:
-				GerenciarPalavras();
+				game.GerenciarPalavras();
 				break;
 			case 3:
-				Jogar();
+				game.Jogar();
 				break;
 			case 4:
-				Sair();
+				game.Sair();
 				break;
 			default:
 				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
-				DisplayMenu();
+				game.DisplayMenu();
 				break;
 			}
 		}while(option != 4);
              
 	}
-    static int DisplayMenu() {
+    public int DisplayMenu() {
     	Scanner read = new Scanner(System.in);
     	int option;
     	
@@ -40,16 +43,18 @@ public class JogoDaForca {
     	return option;
         
     }
-    static void GerenciarTemas() {
-    	System.out.print("escolha: gerenciar temas");
+    public void GerenciarTemas() {
+    	System.out.println("escolha: gerenciar temas");
+        
     }
-    static void GerenciarPalavras() {
-    	System.out.print("escolha: gerenciar palavras");
+    public void GerenciarPalavras() {
+    	System.out.println("escolha: gerenciar palavras");
+    	
     }
-    static void Jogar() {
-    	System.out.print("escolha: jogar");
+    public void Jogar() {
+    	System.out.println("escolha: jogar");
     }
-    static void Sair() {
+    public void Sair() {
     	System.out.print("\nvoce saiu!\nObrigado por jogar!\n");
     }
     
