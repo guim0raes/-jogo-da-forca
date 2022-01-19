@@ -23,7 +23,7 @@ public class JogoDaForca {
 				game.Sair();
 				break;
 			default:
-				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
+				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 11 E 4\n");
 				game.DisplayMenu();
 				break;
 			}
