@@ -48,24 +48,25 @@ public class JogoDaForca {
     static void GerenciarTemas() {
     	
     	/*  O programa deverá ser capaz de armazenar até 50 diferentes temas.
-		(a) Cadastro: o usuário poderá cadastrar temas no programa. Não poderão existir temas com
+		(1) Cadastro: o usuário poderá cadastrar temas no programa. Não poderão existir temas com
 			nomes iguais.
-		(b) Exclusão: o usuário poderá excluir temas desde que não existam palavras associadas a ele.
+		(2) Exclusão: o usuário poderá excluir temas desde que não existam palavras associadas a ele.
 			Caso não seja possível realizar exclusão, o programa deverá exibir e mensagem “Não foi
 			possível excluir o tema. Verifique se existem palavras cadastradas nesse tema.”
-		(c) Busca: o usuário poderá buscar por temas cadastrados no sistema.
+		(3) Busca: o usuário poderá buscar por temas cadastrados no sistema.
     	  
     	 * */
     	
     	int option;
-    	int index;
+    	int indexLinha;
+    	int indexColuna;
     	boolean temaRepetido = false;
-    	String temaCadastro;
+    	String temaDigitado;
     	Scanner read = new Scanner(System.in);
     	
     	do {
-    		
-    		System.out.print("\nDigite a opção desejada (1-4)\n");
+    		System.out.print("\nVocê esta em 'Gerenciar' temas\n");
+    		System.out.print("Digite a opção desejada (1-4)\n");
     		System.out.print("(1) Cadastrar Tema\n");
     		System.out.print("(2) Excluir Tema\n");
     		System.out.print("(3) Buscar por um tema\n");
@@ -74,33 +75,52 @@ public class JogoDaForca {
     	    
     		switch (option) {
     		
-    		case 1:
+    		case 1: // cadastro
     			System.out.print("Digite o tema que deseja cadastrar:\n");
-    			read.nextLine();
-    			temaCadastro = read.nextLine().toString();
+    			read.nextLine().toLowerCase();
+    			temaDigitado = read.nextLine().toLowerCase();
     			temaRepetido = false;
     			
-    			for( index = 0; index <= 50; index++) {
-    				if(temaCadastro.equals(palavras[index][0]) ){
+    			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
+    				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
     				    break;
     				}
        			}
     			
     			if(temaRepetido) {
-    				System.out.print("\ntema já cadastrado por favor digite outro\n");
+    				System.out.print("\ntema\'"+temaDigitado+"\' já cadastrado por favor digite outro\n");
     			}else{
-    				for(index = 0; index<50 ;index++) {
-    					if(palavras[index][0] == null){
-    						palavras[index][0] = temaCadastro;
-    	    				System.out.print("\ntema:"+palavras[index][0]+" cadastrado com sucesso\n");
+    				for(indexLinha = 0; indexLinha<50 ;indexLinha++) {
+    					if(palavras[indexLinha][0] == null){
+    						palavras[indexLinha][0] = temaDigitado;
+    	    				System.out.print("\ntema\' "+temaDigitado+"\' cadastrado com sucesso\n");
     	    				break;
     					}
     				}	
     			}
     			break;
-    		case 2:
-    			
+    		
+    		case 2: // excluir
+    			System.out.print("Digite o tema que deseja excluir:\n");
+    			read.nextLine();
+    			temaDigitado = read.nextLine().toLowerCase();
+    		    temaRepetido = false;
+    			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {	
+    				if(temaDigitado.equals(palavras[indexLinha][0]) ){
+    					temaRepetido = true;
+    					if(palavras[indexLinha][1] == null) {
+    				    	palavras[indexLinha][0] = null;     
+    				        System.out.println("tema\'"+temaDigitado+"\' excluido\n");
+    					}else{
+    				    	System.out.println("impossivel excluir o tema\'"+temaDigitado+"\' possui palavras cadastradas\n"); 	
+    				    }
+    				    break;
+    				}
+       			}
+    			if(temaRepetido == false) {
+    				System.out.println("tema\'"+temaDigitado+"\' encotrado\n");
+    			}
     		}
     	
     	}while(option != 4);        
