@@ -65,7 +65,7 @@ public class JogoDaForca {
     	Scanner read = new Scanner(System.in);
     	
     	do {
-    		System.out.print("\nVocê esta em 'Gerenciar' temas\n");
+    		System.out.print("\nVocê esta em 'Gerenciar temas'\n");
     		System.out.print("Digite a opção desejada (1-4)\n");
     		System.out.print("(1) Cadastrar Tema\n");
     		System.out.print("(2) Excluir Tema\n");
@@ -121,8 +121,32 @@ public class JogoDaForca {
     			if(temaRepetido == false) {
     				System.out.println("tema\'"+temaDigitado+"\' encotrado\n");
     			}
+    		
+    		case 3: //busca
+    			System.out.print("Digite o tema que deseja buscar:\n");
+    			read.nextLine();
+    			temaDigitado = read.nextLine().toLowerCase();
+    		    temaRepetido = false;
+    		    
+    		    for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
+    		    	if(temaDigitado.equals(palavras[indexLinha][0]) ){
+    		    		temaRepetido = true;
+    		    		System.out.print("tema: "+palavras[indexLinha][0]+" palavras: ");
+    		    		for(indexColuna = 1;indexColuna<=50;indexColuna++) {
+    		    			System.out.print(palavras[indexLinha][indexColuna]+"|");
+    		    		}
+    		    		break;
+    		    	}
+    		    	
+    		    }
+    		    System.out.print("\n");
+    		    if(temaRepetido == false) {
+    		    	System.out.println("tema\'"+temaDigitado+"\' encotrado\n");
+    		    }
+    			break;
     		}
-    	
+    		
+    			
     	}while(option != 4);        
     }  
     
