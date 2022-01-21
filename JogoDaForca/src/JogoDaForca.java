@@ -23,6 +23,9 @@ public class JogoDaForca {
 			case 4:
 				Sair();
 				break;
+			case 5:
+				DisplayTabela();
+				break;
 			default:
 				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
 				break;
@@ -39,6 +42,7 @@ public class JogoDaForca {
     	System.out.print("(2) Gerenciar palavras\n");
     	System.out.print("(3) Jogar\n");
     	System.out.print("(4) Sair\n");
+    	System.out.print("(5) Tabela\n");
     	option = read.nextInt();
     	return option;
         
@@ -69,6 +73,7 @@ public class JogoDaForca {
     		System.out.print("(2) Excluir Tema\n");
     		System.out.print("(3) Buscar por um tema\n");
     		System.out.print("(4) Voltar ao menu principal\n");
+    		read.hasNextLine();
     		option = read.nextInt();
     	    
     		switch (option) {
@@ -104,11 +109,22 @@ public class JogoDaForca {
     			read.nextLine();
     			temaDigitado = read.nextLine().toLowerCase();
     		    temaRepetido = false;
+    		    int nullsRepetidos = 0;
     			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {	
     				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
     					if(palavras[indexLinha][1] == null) {
-    				    	palavras[indexLinha][0] = null;     
+    				    	for(indexLinha = indexLinha;indexLinha<=50;indexLinha++) {
+    				    		if(palavras[indexLinha][0]== null){
+    				    			nullsRepetidos++;
+    				    			}if(indexLinha < 50 && nullsRepetidos < 2) {
+    				    			palavras[indexLinha][0] = palavras[indexLinha+1][0];  
+    				    		}else {
+    				    			palavras[indexLinha][0] = null;  
+    				    		}
+    				    	}
+    						
+    						   
     				        System.out.println("tema\'"+temaDigitado+"\' excluido\n");
     					}else{
     				    	System.out.println("impossivel excluir o tema\'"+temaDigitado+"\' possui palavras cadastradas\n"); 	
@@ -117,9 +133,9 @@ public class JogoDaForca {
     				}
        			}
     			if(temaRepetido == false) {
-    				System.out.println("tema\'"+temaDigitado+"\' encotrado\n");
+    				System.out.println("tema\'"+temaDigitado+"\' nao encotrado\n");
     			}
-    		
+    			break;
     		case 3: //busca
     			System.out.print("Digite o tema que deseja buscar:\n");
     			read.nextLine();
@@ -131,7 +147,8 @@ public class JogoDaForca {
     		    		temaRepetido = true;
     		    		System.out.print("tema: "+palavras[indexLinha][0]+" palavras: ");
     		    		for(indexColuna = 1;indexColuna<=50;indexColuna++) {
-    		    			System.out.print(palavras[indexLinha][indexColuna]+"|");
+    		    			if(palavras[indexLinha][indexColuna] == null) break;
+    		    			System.out.print("'"+palavras[indexLinha][indexColuna]+"' ");
     		    		}
     		    		break;
     		    	}
@@ -139,7 +156,7 @@ public class JogoDaForca {
     		    }
     		    System.out.print("\n");
     		    if(temaRepetido == false) {
-    		    	System.out.println("tema\'"+temaDigitado+"\' encotrado\n");
+    		    	System.out.println("tema\'"+temaDigitado+"\' nao encotrado\n");
     		    }
     			break;
     		
@@ -229,7 +246,44 @@ public class JogoDaForca {
     			break;
     		
     		case 2: // excluir
+    			System.out.print("Digite a PALAVRA que deseja excluir:\n");
+    			read.nextLine();
+    			palavraDigitada = read.nextLine().toLowerCase();
+    			System.out.print("Digite o TEMA em que deseja excluir a palavra:\n");
     			
+    			temaDigitado = read.nextLine().toLowerCase();
+    			palavraRepetida = false;
+    			temaRepetido = false;
+    			
+    			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
+    				if(temaDigitado.equals(palavras[indexLinha][0]) ){
+    					temaRepetido = true;
+    				    break;
+    				}
+       			}
+    			
+    			if(temaRepetido) {
+    				for(indexColuna = 1; indexColuna<=50 ;indexColuna++) {
+    					if(palavras[indexLinha][indexColuna] == null) {
+    						break;
+    					}else if(palavraDigitada.equals(palavras[indexLinha][indexColuna])){
+    						palavraRepetida = true;
+    						for(indexColuna = indexColuna; indexColuna<=50 ;indexColuna++){
+    						if(indexColuna <50) {
+    							palavras[indexLinha][indexColuna] = palavras[indexLinha][indexColuna + 1];
+    						}else palavras[indexLinha][indexColuna] = null;
+    						}				
+    	    				break;
+    					}
+    				}
+    			}else{
+    				System.out.print("tema não encontrado por favor digite um tema já cadastrado\n");	
+    			}
+    			
+    			if(palavraRepetida != true && temaRepetido) {
+    				System.out.print("palavra não encontrada\n");
+    			}
+    			break;
     		
     		case 3: //busca
     			
@@ -248,5 +302,17 @@ public class JogoDaForca {
     static void Sair() {
     	System.out.print("\nvoce saiu!\nObrigado por jogar!\n");
     }
-    
+    static void DisplayTabela() {
+    	for(int linha=0;linha<=50;linha++) {
+    		if(palavras[linha][0] != null) {
+    		System.out.print("\n"+palavras[linha][0]+": ");
+    		}
+    		for(int coluna=1; coluna<=50;coluna++) {
+    			if(palavras[linha][coluna] != null) {
+    			System.out.print("'"+palavras[linha][coluna]+"' ");
+    			}
+    		}
+    		
+    	}
+    }
 }
