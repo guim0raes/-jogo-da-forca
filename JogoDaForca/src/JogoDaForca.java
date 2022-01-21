@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.IOException;
 public class JogoDaForca {
 	
 	static String[][] palavras = new String[51][51];  
@@ -10,7 +11,8 @@ public class JogoDaForca {
 		int option;
 		do {
 		option = DisplayMenu();
-			switch (option){
+		
+		switch (option){
 			case 1: 
 				GerenciarTemas();
 				break;
@@ -80,7 +82,7 @@ public class JogoDaForca {
     		
     		case 1: // cadastro
     			System.out.print("Digite o tema que deseja cadastrar:\n");
-    			read.nextLine().toLowerCase();
+    			read.nextLine();
     			temaDigitado = read.nextLine().toLowerCase();
     			temaRepetido = false;
     			
@@ -309,6 +311,7 @@ public class JogoDaForca {
     			}
     			if(palavraRepetida == false)System.out.print("palavra nao encontrada\n");
     			break;
+    		
     		case 4:
     			System.out.print("Digite o tema que deseja buscar:\n");
     			read.nextLine();
@@ -332,17 +335,148 @@ public class JogoDaForca {
     				System.out.println("tema\'"+temaDigitado+"\' nao encotrado\n");
     			}
     			break;
+    		case 5:
+    			break;
     		default:
     			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
     			break;
     		}	
     	}while(option != 4);  
     }
-    static void Jogar() {
-    	System.out.println("escolha: jogar");
+    static void Jogar(){
+    	/*	(1) Seleção de tema: antes de iniciar um jogo, o usuário deverá selecionar um tema onde será
+				buscada a palavra.
+			(2) Jogo:
+				i. Em cada rodada, o usuário deve escolher uma letra.
+				ii. Caso a letra já tenha sido tentada, o programa deverá mostrar a mensagem: “Tente
+				outra letra!”
+				iii. Para cada letra tentada pelo usuário e não presente na palavra, deverá ser contabilizado
+				um erro.
+			
+				iv. O usuário poderá ter no máximo cinco erro. Após a quinta tentativa errada, o programa
+				deverá mostrar a mensagem “Você perdeu! Deseja Deseja jogar novamente?”. Não é
+				necessário mostrar a palavra no final da partida.
+				v. Caso o usuário acerte a palavra, o programa deverá mostrar a mensagem: “Parabéns!
+				Você acertou a palavra! Deseja jogar novamente?”.
+			(3) Jogar novamente: caso o usuário, ao final de um jogo, decida jogar novamente, deve ser
+				mostrada novamente a opção de escolha de tema. Depois disso, um novo jogo é iniciado.
+			(4) Sair: caso o usuário decida não jogar novamente, o programa deve mostrar o menu inicial.
+
+    	 * */
+    	int indexLinha=0;
+    	int indexColuna=0;
+    	
+    	boolean palavraRepetida = false;
+    	boolean temaRepetido = false;
+    	
+    	String palavraDigitada;
+    	String temaDigitado;
+    	String palavraJogo;
+    	
+    	Scanner read = new Scanner(System.in);
+    	System.out.print("Digite um tema para jogar\n");
+    	read.nextLine();
+    	temaDigitado = read.nextLine();
+    	
+    	for(indexLinha=0;indexLinha<=50;indexLinha++){
+    		if(temaDigitado.equals(palavras[indexLinha][0])){
+    			temaRepetido = true;
+    			for(indexColuna = 1;indexColuna<=50;indexColuna++) {
+    				if(palavras[indexLinha][indexColuna] == null){				
+    					break;
+    				}
+    			}
+    		break;
+    		}
+    	}
+    	
+    	if(temaRepetido){
+    		System.out.print("Digite um numero de 1 a "+(indexColuna - 1)+"para jogar\n");
+    		palavraJogo = palavras[indexLinha][read.nextInt()];
+    	    System.out.print("palavraJogo ="+palavraJogo);
+    		// iniciar jogo
+           
+    	    
+    	    if(palavraJogo != null) {
+            	boolean jogarNovamente = false;
+        		boolean fimJogo = false;
+        		boolean acertouPalavra = false;
+        		boolean letraRepetida = false;
+        		int acertouLetra = 0;
+        		int letrasAcertadas = 0;
+        		int indexLetraDigitada = 0;
+        		int erros = 0;
+        		String[] letrasDigitadas = new String[palavraJogo.length()+6];
+        		char[] letrasPalavra = palavraJogo.toCharArray();
+                String letraDigitada;
+               
+                for(int aux=0;aux<palavraJogo.length();aux++){
+                	System.out.print("|"+letrasPalavra[aux]); 	
+                }
+                System.out.print("\n");
+        		do {
+                	acertouLetra = 0;
+                	palavraRepetida = false;
+                	read.nextLine();
+                	System.out.print("Digite uma letra: ");
+                	
+                	letraDigitada = read.nextLine();
+                	
+                	for(int aux = 0;aux<(palavraJogo.length()+6);aux++) {
+                		if(letraDigitada.equals(letrasDigitadas[aux])){
+                			palavraRepetida = true;
+                		}
+                	}
+                	if(palavraRepetida){
+                		System.out.print("tente outra letra\n");
+                		continue;
+                	}else {
+                		letrasDigitadas[indexLetraDigitada] = letraDigitada;
+                	
+                	}
+                	
+                	for(int aux=0;aux<palavraJogo.length();aux++){
+                		if(letraDigitada.equals( String.valueOf(letrasPalavra[aux]) )){
+                			
+                			acertouLetra++;
+                			letrasAcertadas++;
+                			
+                		}
+                	}
+                	
+                	if(acertouLetra>0) { 
+                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' aparece "+acertouLetra+" vezes na palavra\n");
+                	}else { 
+                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra\n");
+                	    erros++;
+                	}
+                	
+                	indexLetraDigitada++;
+                	if(letrasAcertadas == palavraJogo.length()) {
+                		acertouPalavra = true;
+                	}
+                	if(acertouPalavra){
+                		System.out.print("voce acertou a palavra fim de jogo\n");
+                		fimJogo = true;
+                	}
+                	if(erros>5) {
+                		System.out.print("voce errou 6 vezes fim de jogo\n");
+                		fimJogo = true;
+                	}
+                }while(fimJogo == false);
+            
+            }else 
+            	System.out.print("palavra não selecionada\n");
+            	        
+    	}else
+    		System.out.print("Tema não encontrado\n");
+    
     }
-    static void Sair() {
-    	System.out.print("\nvoce saiu!\nObrigado por jogar!\n");
+   
+	static void Sair() {
+    	
+    	
+            
     }
     static void DisplayTabela() {
     	for(int linha=0;linha<=50;linha++) {
@@ -357,4 +491,6 @@ public class JogoDaForca {
     		
     	}
     }
+    
+     
 }
