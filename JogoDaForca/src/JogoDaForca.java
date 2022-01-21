@@ -368,109 +368,123 @@ public class JogoDaForca {
     	
     	boolean palavraRepetida = false;
     	boolean temaRepetido = false;
-    	
+    	boolean jogarNovamente = false;
     	String palavraDigitada;
     	String temaDigitado;
     	String palavraJogo;
     	
     	Scanner read = new Scanner(System.in);
-    	System.out.print("Digite um tema para jogar\n");
-    	read.nextLine();
-    	temaDigitado = read.nextLine();
     	
-    	for(indexLinha=0;indexLinha<=50;indexLinha++){
-    		if(temaDigitado.equals(palavras[indexLinha][0])){
-    			temaRepetido = true;
-    			for(indexColuna = 1;indexColuna<=50;indexColuna++) {
-    				if(palavras[indexLinha][indexColuna] == null){				
-    					break;
-    				}
-    			}
-    		break;
-    		}
-    	}
-    	
-    	if(temaRepetido){
-    		System.out.print("Digite um numero de 1 a "+(indexColuna - 1)+"para jogar\n");
-    		palavraJogo = palavras[indexLinha][read.nextInt()];
-    	    System.out.print("palavraJogo ="+palavraJogo);
-    		// iniciar jogo
-           
-    	    
-    	    if(palavraJogo != null) {
-            	boolean jogarNovamente = false;
-        		boolean fimJogo = false;
-        		boolean acertouPalavra = false;
-        		boolean letraRepetida = false;
-        		int acertouLetra = 0;
-        		int letrasAcertadas = 0;
-        		int indexLetraDigitada = 0;
-        		int erros = 0;
-        		String[] letrasDigitadas = new String[palavraJogo.length()+6];
-        		char[] letrasPalavra = palavraJogo.toCharArray();
-                String letraDigitada;
-               
-                for(int aux=0;aux<palavraJogo.length();aux++){
-                	System.out.print("|"+letrasPalavra[aux]); 	
-                }
-                System.out.print("\n");
-        		do {
-                	acertouLetra = 0;
-                	palavraRepetida = false;
-                	read.nextLine();
-                	System.out.print("Digite uma letra: ");
-                	
-                	letraDigitada = read.nextLine();
-                	
-                	for(int aux = 0;aux<(palavraJogo.length()+6);aux++) {
-                		if(letraDigitada.equals(letrasDigitadas[aux])){
-                			palavraRepetida = true;
-                		}
-                	}
-                	if(palavraRepetida){
-                		System.out.print("tente outra letra\n");
-                		continue;
-                	}else {
-                		letrasDigitadas[indexLetraDigitada] = letraDigitada;
-                	
-                	}
-                	
-                	for(int aux=0;aux<palavraJogo.length();aux++){
-                		if(letraDigitada.equals( String.valueOf(letrasPalavra[aux]) )){
-                			
-                			acertouLetra++;
-                			letrasAcertadas++;
-                			
-                		}
-                	}
-                	
-                	if(acertouLetra>0) { 
-                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' aparece "+acertouLetra+" vezes na palavra\n");
-                	}else { 
-                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra\n");
-                	    erros++;
-                	}
-                	
-                	indexLetraDigitada++;
-                	if(letrasAcertadas == palavraJogo.length()) {
-                		acertouPalavra = true;
-                	}
-                	if(acertouPalavra){
-                		System.out.print("voce acertou a palavra fim de jogo\n");
-                		fimJogo = true;
-                	}
-                	if(erros>5) {
-                		System.out.print("voce errou 6 vezes fim de jogo\n");
-                		fimJogo = true;
-                	}
-                }while(fimJogo == false);
-            
-            }else 
-            	System.out.print("palavra não selecionada\n");
-            	        
-    	}else
-    		System.out.print("Tema não encontrado\n");
-    
+		do {
+			jogarNovamente = false;
+			temaRepetido = false;
+	    	System.out.print("Digite um tema para jogar\n");
+	    	temaDigitado = read.nextLine();
+	    	
+	    	for(indexLinha=0;indexLinha<=50;indexLinha++){
+	    		if(temaDigitado.equals(palavras[indexLinha][0])){
+	    			temaRepetido = true;
+	    			for(indexColuna = 1;indexColuna<=50;indexColuna++) {
+	    				if(palavras[indexLinha][indexColuna] == null){				
+	    					break;
+	    				}
+	    			}
+	    		break;
+	    		}
+	    	}
+	    	
+	    	if(temaRepetido){ // iniciar jogo
+	    		
+	    		read.nextLine();
+	    		System.out.print("Digite um numero de 1 a "+(indexColuna - 1)+"para jogar\n");
+	    		
+	    		palavraJogo = palavras[indexLinha][read.nextInt()];
+	    	    System.out.print("palavraJogo ="+palavraJogo);
+	    		
+	    	    
+	           
+	    	    if(palavraJogo != null) {
+	            	
+	        		boolean fimJogo = false;
+	        		boolean acertouPalavra = false;
+	        		boolean letraRepetida = false;
+	        		int acertouLetra = 0;
+	        		int letrasAcertadas = 0;
+	        		int indexLetraDigitada = 0;
+	        		int erros = 0;
+	        		String[] letrasDigitadas = new String[palavraJogo.length()+6];
+	        		char[] letrasPalavra = palavraJogo.toCharArray();
+	                String letraDigitada;
+	               
+	                for(int aux=0;aux<palavraJogo.length();aux++){
+	                	System.out.print("|"+letrasPalavra[aux]); 	
+	                }
+	                System.out.print("\n");
+	                
+	                
+	                	do {
+	                	acertouLetra = 0;
+	                	palavraRepetida = false;
+	                	read.nextLine();
+	                	System.out.print("Digite uma letra: ");
+	 
+	                	letraDigitada = read.nextLine();
+	                	
+	                	for(int aux = 0;aux<(palavraJogo.length()+6);aux++) {
+	                		if(letraDigitada.equals(letrasDigitadas[aux])){
+	                			palavraRepetida = true;
+	                		}
+	                	}
+	                	if(palavraRepetida){
+	                		System.out.print("tente outra letra\n");
+	                		continue;
+	                	}else {
+	                		letrasDigitadas[indexLetraDigitada] = letraDigitada;
+	                	
+	                	}
+	                	
+	                	for(int aux=0;aux<palavraJogo.length();aux++){
+	                		if(letraDigitada.equals( String.valueOf(letrasPalavra[aux]) )){
+	                			
+	                			acertouLetra++;
+	                			letrasAcertadas++;
+	                			
+	                		}
+	                	}
+	                	
+	                	if(acertouLetra>0) { 
+	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' aparece "+acertouLetra+" vezes na palavra\n");
+	                	}else { 
+	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra ");
+	                		erros++;
+	                		System.out.print("voce ainda tem "+(6-erros)+" chances\n");
+	                	}
+	                	
+	                	indexLetraDigitada++;
+	                	if(letrasAcertadas == palavraJogo.length()) {
+	                		acertouPalavra = true;
+	                	}
+	                	if(acertouPalavra){
+	                		System.out.print("voce acertou a palavra fim de jogo\n");
+	                		fimJogo = true;
+	                	}
+	                	if(erros>5) {
+	                		System.out.print("voce errou 6 vezes fim de jogo\n");
+	                		fimJogo = true;
+	                	}
+	                }while(fimJogo == false);
+	                	System.out.print("deseja jogar novamente? \n");
+	                    if(read.nextLine().toLowerCase().equals("sim")){
+	                    	jogarNovamente = true;
+	                    }
+	                
+	            
+	            }else 
+	            	System.out.print("palavra não selecionada\n");
+	            	        
+	    	}else
+	    		System.out.print("Tema não encontrado\n");
+    }while(jogarNovamente);
     }
    
 	static void Sair() {
