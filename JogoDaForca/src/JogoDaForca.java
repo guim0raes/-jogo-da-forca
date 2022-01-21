@@ -202,7 +202,8 @@ public class JogoDaForca {
     		System.out.print("(1) Cadastrar palavra\n");
     		System.out.print("(2) Excluir palavra\n");
     		System.out.print("(3) Buscar por um palavra\n");
-    		System.out.print("(4) Voltar ao menu principal\n");
+    		System.out.print("(4) Listar palavras\n");
+    		System.out.print("(5) Voltar ao menu principal\n");
     		option = read.nextInt();
     	    
     		switch (option) {
@@ -308,7 +309,28 @@ public class JogoDaForca {
     			}
     			if(palavraRepetida == false)System.out.print("palavra nao encontrada\n");
     			break;
-    		case 4:// voltar ao menu principal
+    		case 4:
+    			System.out.print("Digite o tema que deseja buscar:\n");
+    			read.nextLine();
+    			temaDigitado = read.nextLine().toLowerCase();
+    			temaRepetido = false;
+		    
+    			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
+    				if(temaDigitado.equals(palavras[indexLinha][0]) ){
+    					temaRepetido = true;
+    					System.out.print("tema: "+palavras[indexLinha][0]+" palavras: ");
+    					for(indexColuna = 1;indexColuna<=50;indexColuna++) {
+    						if(palavras[indexLinha][indexColuna] == null) break;
+    						System.out.print("'"+palavras[indexLinha][indexColuna]+"' ");
+    					}
+    					break;
+    				}
+    				
+    			}
+    			System.out.print("\n");
+    			if(temaRepetido == false) {
+    				System.out.println("tema\'"+temaDigitado+"\' nao encotrado\n");
+    			}
     			break;
     		default:
     			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
