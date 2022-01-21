@@ -84,6 +84,7 @@ public class JogoDaForca {
     			temaDigitado = read.nextLine().toLowerCase();
     			temaRepetido = false;
     			
+    			// localizar se o tema já está cadastrado
     			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
     				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
@@ -113,11 +114,13 @@ public class JogoDaForca {
     			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {	
     				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
-    					if(palavras[indexLinha][1] == null) {
-    				    	for(indexLinha = indexLinha;indexLinha<=50;indexLinha++) {
-    				    		if(palavras[indexLinha][0]== null){
-    				    			nullsRepetidos++;
-    				    			}if(indexLinha < 50 && nullsRepetidos < 2) {
+    					if(palavras[indexLinha][1] == null){
+    				    	
+    						//substitui a palavra desejada pela posterior para evitar nulls no meio da matiz
+    						for(indexLinha = indexLinha;indexLinha<=50;indexLinha++) {
+    				    		if(nullsRepetidos >=2) break;
+    				    		if(palavras[indexLinha][0]== null)nullsRepetidos++;	
+    				    		if(indexLinha < 50 && nullsRepetidos < 2) {
     				    			palavras[indexLinha][0] = palavras[indexLinha+1][0];  
     				    		}else {
     				    			palavras[indexLinha][0] = null;  
@@ -181,7 +184,8 @@ public class JogoDaForca {
 				cadastradas no programa. Caso uma palavra não seja encontrada, deve ser retornada a
 				mensagem “Palavra não encontrada”, caso contrário a mensagem a ser retornada é “Palavra
 				encontrada no tema XYZ”, onde XYZ é o tema em que a palavra está.
-			(4) Listagem: o
+			(4) Listagem: ousuário poderá selecionar um tema e ver todas as palavras cadastrada naquele tema.
+
 			*/
 		int option;
     	int indexLinha;
@@ -250,7 +254,7 @@ public class JogoDaForca {
     			read.nextLine();
     			palavraDigitada = read.nextLine().toLowerCase();
     			System.out.print("Digite o TEMA em que deseja excluir a palavra:\n");
-    			
+    			int nullConta = 0;
     			temaDigitado = read.nextLine().toLowerCase();
     			palavraRepetida = false;
     			temaRepetido = false;
@@ -268,11 +272,15 @@ public class JogoDaForca {
     						break;
     					}else if(palavraDigitada.equals(palavras[indexLinha][indexColuna])){
     						palavraRepetida = true;
+    						
+    						//substitui a palavra desejada pela posterior para evitar nulls no meio da matiz
     						for(indexColuna = indexColuna; indexColuna<=50 ;indexColuna++){
-    						if(indexColuna <50) {
-    							palavras[indexLinha][indexColuna] = palavras[indexLinha][indexColuna + 1];
-    						}else palavras[indexLinha][indexColuna] = null;
-    						}				
+    							if(nullConta >= 2) break;
+    							if (palavras[indexLinha][indexColuna] == null) nullConta++;
+    							if(indexColuna <50 && nullConta<2) {
+    								palavras[indexLinha][indexColuna] = palavras[indexLinha][indexColuna + 1];
+    							}else palavras[indexLinha][indexColuna] = null;
+    							}				
     	    				break;
     					}
     				}
@@ -286,9 +294,21 @@ public class JogoDaForca {
     			break;
     		
     		case 3: //busca
-    			
-    		
-    		case 4:
+    			System.out.print("Digite a PALAVRA que deseja buscar:\n");
+    			read.nextLine();
+    			palavraDigitada = read.nextLine().toLowerCase();
+    			palavraRepetida = false;
+    			for(indexLinha = 0;indexLinha<=50;indexLinha++){
+    				for(indexColuna = 1;indexColuna<=50;indexColuna++){
+    					if(palavraDigitada.equals(palavras[indexLinha][indexColuna])) {
+    						palavraRepetida = true;
+    						System.out.print("palavra encontrada no tema :"+palavras[indexLinha][0]+"\n");
+    					}
+    				}
+    			}
+    			if(palavraRepetida == false)System.out.print("palavra nao encontrada\n");
+    			break;
+    		case 4:// voltar ao menu principal
     			break;
     		default:
     			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
