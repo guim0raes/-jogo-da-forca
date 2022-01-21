@@ -8,7 +8,6 @@ public class JogoDaForca {
 	
 	public static void main(String[] args) {
 		int option;
-		
 		do {
 		option = DisplayMenu();
 			switch (option){
@@ -25,8 +24,7 @@ public class JogoDaForca {
 				Sair();
 				break;
 			default:
-				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 11 E 4\n");
-				DisplayMenu();
+				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
 				break;
 			}
 		}while(option != 4);
@@ -144,19 +142,105 @@ public class JogoDaForca {
     		    	System.out.println("tema\'"+temaDigitado+"\' encotrado\n");
     		    }
     			break;
-    		}
     		
-    			
+    		case 4:
+    			break;
+    		default:
+    			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
+    			break;
+    		}	
     	}while(option != 4);        
     }  
     
-	private static String String(String teste) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 	static void GerenciarPalavras() {
-    	System.out.println("escolha: gerenciar palavras");
+    	/* 	o programa deverá ser capaz de armazenar até 50 palavras para cada um dos temas cadastrados.
+			
+			(1) Cadastro: o usuário poderá cadastrar palavras no programa. Para tanto, ele deve escolher
+				um tema e só então realizar o cadastro. Atenção! não poderão existir palavras iguais dentro
+				de um mesmo tema.
+			(2) Exclusão: o usuário poderá excluir palavras cadastradas no programa.
+			(3) Busca: o usuário deve ser capaz de buscar por uma palavra no conjunto de todas as palavras
+				cadastradas no programa. Caso uma palavra não seja encontrada, deve ser retornada a
+				mensagem “Palavra não encontrada”, caso contrário a mensagem a ser retornada é “Palavra
+				encontrada no tema XYZ”, onde XYZ é o tema em que a palavra está.
+			(4) Listagem: o
+			*/
+		int option;
+    	int indexLinha;
+    	int indexColuna;
+    	boolean palavraRepetida = false;
+    	boolean temaRepetido = false;
+    	String palavraDigitada;
+    	String temaDigitado;
+    	Scanner read = new Scanner(System.in);
     	
+    	do {
+    		System.out.print("\nVocê esta em 'Gerenciar palavras'\n");
+    		System.out.print("Digite a opção desejada (1-4)\n");
+    		System.out.print("(1) Cadastrar palavra\n");
+    		System.out.print("(2) Excluir palavra\n");
+    		System.out.print("(3) Buscar por um palavra\n");
+    		System.out.print("(4) Voltar ao menu principal\n");
+    		option = read.nextInt();
+    	    
+    		switch (option) {
+    		
+    		case 1: // cadastro
+    			System.out.print("Digite a palavra que deseja cadastrar:\n");
+    			read.nextLine();
+    			palavraDigitada = read.nextLine().toLowerCase();
+    			System.out.print("Digite o tema em que deseja cadastrar a palavra:\n");
+    			
+    			temaDigitado = read.nextLine().toLowerCase();
+    			palavraRepetida = false;
+    			temaRepetido = false;
+    			
+    			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
+    				if(temaDigitado.equals(palavras[indexLinha][0]) ){
+    					temaRepetido = true;
+    				    break;
+    				}
+       			}
+    			
+    			if(temaRepetido) {
+    				for(indexColuna = 1; indexColuna<=50 ;indexColuna++) {
+    					if(palavras[indexLinha][indexColuna] == null) {
+    						
+    					}else if( palavraDigitada.equals(palavras[indexLinha][indexColuna])){
+    						palavraRepetida = true;
+    	    				System.out.print("\npalavra\' "+palavraDigitada+"\' já cadastrada\n");
+    	    				break;
+    					}
+    				}
+    			}else{
+    				System.out.print("tema não encontrado por favor digite um tema já cadastrado\n");	
+    			}
+    			
+    			if(palavraRepetida != true && temaRepetido) {
+    				for(indexColuna = 1; indexColuna<=50;indexColuna++) {
+    					if(palavras[indexLinha][indexColuna] == null ) {
+    						palavras[indexLinha][indexColuna] = palavraDigitada;
+    						break;
+    					}
+    				}
+    				System.out.print("a palavra'"+palavraDigitada+"' foi cadastrada com sucesso ");
+    			}
+    			break;
+    		
+    		case 2: // excluir
+    			
+    		
+    		case 3: //busca
+    			
+    		
+    		case 4:
+    			break;
+    		default:
+    			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
+    			break;
+    		}	
+    	}while(option != 4);  
     }
     static void Jogar() {
     	System.out.println("escolha: jogar");
