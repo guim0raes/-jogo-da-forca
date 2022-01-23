@@ -1,5 +1,6 @@
 import java.util.Scanner;
-import java.io.IOException;
+import java.util.Random;
+
 public class JogoDaForca {
 	
 	static String[][] palavras = new String[51][51];  
@@ -9,6 +10,7 @@ public class JogoDaForca {
 	
 	public static void main(String[] args) {
 		int option;
+		
 		do {
 		option = DisplayMenu();
 		
@@ -23,16 +25,19 @@ public class JogoDaForca {
 				Jogar();
 				break;
 			case 4:
-				Sair();
+				DisplayTabela();			
 				break;
 			case 5:
-				DisplayTabela();
+				CadastroAutomatico();
+				break;
+			case 6:
+				Sair();
 				break;
 			default:
-				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
+				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 6\n");
 				break;
 			}
-		}while(option != 4);
+		}while(option != 6);
              
 	}
     static int DisplayMenu() {
@@ -42,9 +47,10 @@ public class JogoDaForca {
     	System.out.print("\nDigite a opção desejada (1-4)\n");
     	System.out.print("(1) Gerenciar Temas\n");
     	System.out.print("(2) Gerenciar palavras\n");
-    	System.out.print("(3) Jogar\n");
-    	System.out.print("(4) Sair\n");
-    	System.out.print("(5) Tabela\n");
+    	System.out.print("(3) Jogar\n"); 	
+    	System.out.print("(4) Mostrar tabela de temas e palavras cadastradas\n");
+    	System.out.print("(5) Cadastrar temas e plavras pré selecionadas\n");
+    	System.out.print("(6) Sair\n");
     	option = read.nextInt();
     	return option;
         
@@ -113,22 +119,27 @@ public class JogoDaForca {
     			temaDigitado = read.nextLine().toLowerCase();
     		    temaRepetido = false;
     		    int nullsRepetidos = 0;
-    			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {	
+    			
+    		    //procurar pelo tema digitado
+    		    for( indexLinha = 0; indexLinha <= 50; indexLinha++) {	
     				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
-    					if(palavras[indexLinha][1] == null){
+    					
+    					// garantir que o tema não possui nenhuma palavra cadastrada
+    					if(palavras[indexLinha][1] == null){ 
     				    	
-    						//substitui a palavra desejada pela posterior para evitar nulls no meio da matiz
+    						//substitui o tema desejada pela posterior para evitar nulls no meio da matiz
     						for(indexLinha = indexLinha;indexLinha<=50;indexLinha++) {
-    				    		if(nullsRepetidos >=2) break;
-    				    		if(palavras[indexLinha][0]== null)nullsRepetidos++;	
-    				    		if(indexLinha < 50 && nullsRepetidos < 2) {
-    				    			palavras[indexLinha][0] = palavras[indexLinha+1][0];  
+    				    		for(indexColuna=0;indexColuna<=50;indexColuna++) {
+    							
+    				    		if(indexLinha < 50 ) {
+    				    			palavras[indexLinha][indexColuna] = palavras[indexLinha+1][indexColuna];  
     				    		}else {
     				    			palavras[indexLinha][0] = null;  
     				    		}
-    				    	}
-    						
+    				    	
+    				    		}
+    						}
     						   
     				        System.out.println("tema\'"+temaDigitado+"\' excluido\n");
     					}else{
@@ -147,10 +158,13 @@ public class JogoDaForca {
     			temaDigitado = read.nextLine().toLowerCase();
     		    temaRepetido = false;
     		    
+    		    //procurar pelo tema digitado
     		    for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
     		    	if(temaDigitado.equals(palavras[indexLinha][0]) ){
     		    		temaRepetido = true;
     		    		System.out.print("tema: "+palavras[indexLinha][0]+" palavras: ");
+    		    		
+    		    		//printar as palavras cadastrada ao tema
     		    		for(indexColuna = 1;indexColuna<=50;indexColuna++) {
     		    			if(palavras[indexLinha][indexColuna] == null) break;
     		    			System.out.print("'"+palavras[indexLinha][indexColuna]+"' ");
@@ -165,7 +179,7 @@ public class JogoDaForca {
     		    }
     			break;
     		
-    		case 4:
+    		case 4: //voltar ao menu
     			break;
     		default:
     			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
@@ -173,8 +187,6 @@ public class JogoDaForca {
     		}	
     	}while(option != 4);        
     }  
-    
-
 	static void GerenciarPalavras() {
     	/* 	o programa deverá ser capaz de armazenar até 50 palavras para cada um dos temas cadastrados.
 			
@@ -220,6 +232,7 @@ public class JogoDaForca {
     			palavraRepetida = false;
     			temaRepetido = false;
     			
+    			 //procurar pelo tema digitado
     			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
     				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
@@ -228,6 +241,7 @@ public class JogoDaForca {
        			}
     			
     			if(temaRepetido) {
+    				//verificar se a palavra é repetida
     				for(indexColuna = 1; indexColuna<=50 ;indexColuna++) {
     					if(palavras[indexLinha][indexColuna] == null) {
     						
@@ -241,6 +255,7 @@ public class JogoDaForca {
     				System.out.print("tema não encontrado por favor digite um tema já cadastrado\n");	
     			}
     			
+    			//registrar palavra na matriz
     			if(palavraRepetida != true && temaRepetido) {
     				for(indexColuna = 1; indexColuna<=50;indexColuna++) {
     					if(palavras[indexLinha][indexColuna] == null ) {
@@ -262,6 +277,7 @@ public class JogoDaForca {
     			palavraRepetida = false;
     			temaRepetido = false;
     			
+    			 //procurar pelo tema digitado
     			for( indexLinha = 0; indexLinha <= 50; indexLinha++) {
     				if(temaDigitado.equals(palavras[indexLinha][0]) ){
     					temaRepetido = true;
@@ -270,6 +286,7 @@ public class JogoDaForca {
        			}
     			
     			if(temaRepetido) {
+    				//procurar por palavra digitada
     				for(indexColuna = 1; indexColuna<=50 ;indexColuna++) {
     					if(palavras[indexLinha][indexColuna] == null) {
     						break;
@@ -305,14 +322,15 @@ public class JogoDaForca {
     				for(indexColuna = 1;indexColuna<=50;indexColuna++){
     					if(palavraDigitada.equals(palavras[indexLinha][indexColuna])) {
     						palavraRepetida = true;
-    						System.out.print("palavra encontrada no tema :"+palavras[indexLinha][0]+"\n");
+    						System.out.print("palavra encontrada no tema: "+palavras[indexLinha][0]+"\n");
     					}
     				}
     			}
     			if(palavraRepetida == false)System.out.print("palavra nao encontrada\n");
     			break;
     		
-    		case 4:
+    		case 4: //busca
+    			
     			System.out.print("Digite o tema que deseja buscar:\n");
     			read.nextLine();
     			temaDigitado = read.nextLine().toLowerCase();
@@ -335,13 +353,13 @@ public class JogoDaForca {
     				System.out.println("tema\'"+temaDigitado+"\' nao encotrado\n");
     			}
     			break;
-    		case 5:
+    		case 5://voltara ao menu
     			break;
     		default:
-    			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 4\n");
+    			System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 5\n");
     			break;
     		}	
-    	}while(option != 4);  
+    	}while(option != 5);  
     }
     static void Jogar(){
     	/*	(1) Seleção de tema: antes de iniciar um jogo, o usuário deverá selecionar um tema onde será
@@ -381,6 +399,7 @@ public class JogoDaForca {
 	    	System.out.print("Digite um tema para jogar\n");
 	    	temaDigitado = read.nextLine();
 	    	
+	    	// indentificar o tema desejado
 	    	for(indexLinha=0;indexLinha<=50;indexLinha++){
 	    		if(temaDigitado.equals(palavras[indexLinha][0])){
 	    			temaRepetido = true;
@@ -393,16 +412,11 @@ public class JogoDaForca {
 	    		}
 	    	}
 	    	
-	    	if(temaRepetido){ // iniciar jogo
+	    	if(temaRepetido){ 
 	    		
-	    		read.nextLine();
-	    		System.out.print("Digite um numero de 1 a "+(indexColuna - 1)+"para jogar\n");
-	    		
-	    		palavraJogo = palavras[indexLinha][read.nextInt()];
-	    	    System.out.print("palavraJogo ="+palavraJogo);
-	    		
+	    		// defeni a palavra que deve ser adivinhada
+	    		palavraJogo = palavras[indexLinha][(int) generateRandomIntIntRange(1,(indexColuna-1) )];
 	    	    
-	           
 	    	    if(palavraJogo != null) {
 	            	
 	        		boolean fimJogo = false;
@@ -413,23 +427,37 @@ public class JogoDaForca {
 	        		int indexLetraDigitada = 0;
 	        		int erros = 0;
 	        		String[] letrasDigitadas = new String[palavraJogo.length()+6];
-	        		char[] letrasPalavra = palavraJogo.toCharArray();
 	                String letraDigitada;
-	               
+	                
+	                //letrasPalavra possui as letras da palavra misterio          
+	                char[] letrasPalavra = palavraJogo.toCharArray();
+	                
 	                for(int aux=0;aux<palavraJogo.length();aux++){
 	                	System.out.print("|"+letrasPalavra[aux]); 	
 	                }
 	                System.out.print("\n");
-	                
-	                
-	                	do {
+	              //inciar os caracter " ","","\n" para o uzario não precisar contabiliza-los para ganhar o jogo e evitar erros de digitação
+	                read.nextLine();
+	                letrasDigitadas[0]= "";
+	                letrasDigitadas[1]=" ";
+	                letrasDigitadas[2]="\n";  
+	                for(int aux=0;aux<palavraJogo.length();aux++){
+                		if(" ".equals( String.valueOf(letrasPalavra[aux]) )){
+                			acertouLetra++;
+                			letrasAcertadas++;
+                		}
+                	}	
+	                do { 
+	                	// inicia o jogo
+	                	
+	                	
 	                	acertouLetra = 0;
 	                	palavraRepetida = false;
-	                	read.nextLine();
+	                	
 	                	System.out.print("Digite uma letra: ");
-	 
 	                	letraDigitada = read.nextLine();
 	                	
+	                	// confere se a letra já foi digitada ------------------------------------------------
 	                	for(int aux = 0;aux<(palavraJogo.length()+6);aux++) {
 	                		if(letraDigitada.equals(letrasDigitadas[aux])){
 	                			palavraRepetida = true;
@@ -438,61 +466,70 @@ public class JogoDaForca {
 	                	if(palavraRepetida){
 	                		System.out.print("tente outra letra\n");
 	                		continue;
-	                	}else {
+	                	}else{
 	                		letrasDigitadas[indexLetraDigitada] = letraDigitada;
-	                	
 	                	}
 	                	
+	                	//confere se a letra digitada pertence a palavra misterio ------------------------------
 	                	for(int aux=0;aux<palavraJogo.length();aux++){
 	                		if(letraDigitada.equals( String.valueOf(letrasPalavra[aux]) )){
-	                			
 	                			acertouLetra++;
 	                			letrasAcertadas++;
-	                			
 	                		}
 	                	}
 	                	
+	                	// contabiliza os erros e/ou acertos ------------------------------------------------------------
 	                	if(acertouLetra>0) { 
 	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' aparece "+acertouLetra+" vezes na palavra\n");
 	                	}else { 
 	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra ");
 	                		erros++;
-	                		System.out.print("voce ainda tem "+(6-erros)+" chances\n");
+	                		System.out.print("voce ainda tem "+(5-erros)+" chances\n");
 	                	}
 	                	
-	                	indexLetraDigitada++;
+	                	//verifica as condiçoes do jogo
 	                	if(letrasAcertadas == palavraJogo.length()) {
 	                		acertouPalavra = true;
 	                	}
 	                	if(acertouPalavra){
-	                		System.out.print("voce acertou a palavra fim de jogo\n");
+	                		System.out.print("voce acertou a palavra: "+palavraJogo+" fim de jogo\n");
 	                		fimJogo = true;
 	                	}
-	                	if(erros>5) {
-	                		System.out.print("voce errou 6 vezes fim de jogo\n");
+	                	if(erros>=5) {
+	                		System.out.print("voce errou 5 vezes fim de jogo\n");
 	                		fimJogo = true;
 	                	}
+	                	indexLetraDigitada++;
 	                }while(fimJogo == false);
-	                	System.out.print("deseja jogar novamente? \n");
-	                    if(read.nextLine().toLowerCase().equals("sim")){
-	                    	jogarNovamente = true;
-	                    }
-	                
-	            
+	                	
 	            }else 
 	            	System.out.print("palavra não selecionada\n");
 	            	        
 	    	}else
 	    		System.out.print("Tema não encontrado\n");
-    }while(jogarNovamente);
+	    	
+	    	System.out.print("deseja jogar novamente?'sim' ou 'nao' \n");
+	    	
+            if(read.nextLine().toLowerCase().equals("sim")){
+            	jogarNovamente = true;
+            }
+		}while(jogarNovamente);
     }
-   
-	static void Sair() {
-    	
-    	
-            
+    static void StatusJogo(String[]letrasDigitadas, char[]letrasPalavra){
+    	for(int aux=0;aux<letrasPalavra.length;aux++){
+    		if(letrasDigitadas[aux].equals( String.valueOf(letrasPalavra[aux]) )){
+    		System.out.print("");	
+    		}
+    	}
+    }
+    static void Sair() {
+    	  System.out.print("Você saiu. Obrigado por jogar!!\n");       
     }
     static void DisplayTabela() {
+    	/* printa a matriz que contem todos os temas e palavras cadastradas 
+    	 * */
+    	
+    	if(palavras[0][0] != null){
     	for(int linha=0;linha<=50;linha++) {
     		if(palavras[linha][0] != null) {
     		System.out.print("\n"+palavras[linha][0]+": ");
@@ -501,10 +538,37 @@ public class JogoDaForca {
     			if(palavras[linha][coluna] != null) {
     			System.out.print("'"+palavras[linha][coluna]+"' ");
     			}
-    		}
+    		}		
+    	}
+    	}else System.out.print("nenhuma plavra cadastrada\n");
+    }
+    static void CadastroAutomatico() {
+    	/*castrada autamenticamente temas e palavras previamente selecionados.
+          porém sobreecreve qualquer palavra ou tema anteriomente cadastradas.    	
+    	*/
+    	
+    	// cadastroAuto deve ter tamanho [4][5];
+    	String[][] cadastroAuto = 	{{"nome","ana","joao","anakin","luke"},
+    								{"animal","bode","cachorro","gato","mico leao dourado"},
+    								{"objeto","bola","celular","mouse","vaca"},
+    								{"comida","arroz","feijao","jujuba","melao"}};
+    	
+    	Scanner read = new Scanner(System.in);
+    	read.nextLine();
+    	System.out.print("cadastrar palavras autamaticamente ira sobreescrever qualquer palavra ou tema anteriomente cadastrado.\n Deseja proseguir? 'sim'ou'nao': ");
+    	if(read.nextLine().toLowerCase().equals("sim") ){
+    		System.out.print("palavras cadastradas\n");
     		
+							
+    			for(int linha = 0;linha<4;linha++){
+					for(int coluna = 0;coluna<=4;coluna++){
+						palavras[linha][coluna] = cadastroAuto[linha][coluna];
+						}
+    				}
     	}
     }
-    
-     
+    public static int generateRandomIntIntRange(int min, int max) {
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 }
