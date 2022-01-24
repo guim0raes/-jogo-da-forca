@@ -414,7 +414,7 @@ public class JogoDaForca {
 	    	
 	    	if(temaRepetido){ 
 	    		
-	    		// defeni a palavra que deve ser adivinhada
+	    		// defeni a palavra que deve ser adivinhada de forma aleatoria
 	    		palavraJogo = palavras[indexLinha][(int) generateRandomIntIntRange(1,(indexColuna-1) )];
 	    	    
 	    	    if(palavraJogo != null) {
@@ -429,24 +429,25 @@ public class JogoDaForca {
 	        		String[] letrasDigitadas = new String[palavraJogo.length()+6];
 	                String letraDigitada;
 	                
-	                //letrasPalavra possui as letras da palavra misterio          
+	                //letrasPalavra possui os caracteres da palavra misterio          
 	                char[] letrasPalavra = palavraJogo.toCharArray();
 	                
-	                for(int aux=0;aux<palavraJogo.length();aux++){
+	                /* mostra a palavra misterio antes do jogo começar
+	                 * for(int aux=0;aux<letrasPalavra.length;aux++){
 	                	System.out.print("|"+letrasPalavra[aux]); 	
 	                }
-	                System.out.print("\n");
-	              //inciar os caracter " ","","\n" para o uzario não precisar contabiliza-los para ganhar o jogo e evitar erros de digitação
-	                read.nextLine();
-	                letrasDigitadas[0]= "";
-	                letrasDigitadas[1]=" ";
-	                letrasDigitadas[2]="\n";  
+	                System.out.print("\n");*/
+	             
+	                //inciar os caracter " " para o uzario não precisar contabiliza-los para ganhar o jogo e evitar erros de digitação
+	                
+	                letrasDigitadas[0]= " ";  
 	                for(int aux=0;aux<palavraJogo.length();aux++){
                 		if(" ".equals( String.valueOf(letrasPalavra[aux]) )){
                 			acertouLetra++;
                 			letrasAcertadas++;
                 		}
                 	}	
+	                System.out.print("O JOGO COMEÇOU A PALAVRA POSSUI "+letrasPalavra.length+" LETRAS\n");
 	                do { 
 	                	// inicia o jogo
 	                	
@@ -480,26 +481,27 @@ public class JogoDaForca {
 	                	
 	                	// contabiliza os erros e/ou acertos ------------------------------------------------------------
 	                	if(acertouLetra>0) { 
-	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' aparece "+acertouLetra+" vezes na palavra\n");
+	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' pertence a palvra\n");
 	                	}else { 
-	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra ");
+	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra\n");
 	                		erros++;
-	                		System.out.print("voce ainda tem "+(5-erros)+" chances\n");
 	                	}
 	                	
 	                	//verifica as condiçoes do jogo
+	                	StatusJogo(letrasDigitadas,letrasPalavra,erros);
 	                	if(letrasAcertadas == palavraJogo.length()) {
 	                		acertouPalavra = true;
 	                	}
 	                	if(acertouPalavra){
-	                		System.out.print("voce acertou a palavra: "+palavraJogo+" fim de jogo\n");
+	                		System.out.print("\nvoce acertou a palavra: "+palavraJogo+"!!!!! fim de jogo\n");
 	                		fimJogo = true;
 	                	}
 	                	if(erros>=5) {
-	                		System.out.print("voce errou 5 vezes fim de jogo\n");
+	                		System.out.print("\nvoce errou 5 vezes!!! fim de jogo\n");
 	                		fimJogo = true;
 	                	}
 	                	indexLetraDigitada++;
+	                	
 	                }while(fimJogo == false);
 	                	
 	            }else 
@@ -515,12 +517,31 @@ public class JogoDaForca {
             }
 		}while(jogarNovamente);
     }
-    static void StatusJogo(String[]letrasDigitadas, char[]letrasPalavra){
-    	for(int aux=0;aux<letrasPalavra.length;aux++){
-    		if(letrasDigitadas[aux].equals( String.valueOf(letrasPalavra[aux]) )){
-    		System.out.print("");	
-    		}
-    	}
+    static void StatusJogo(String[]letrasDigitadas, char[]letrasPalavra , int erros){
+    	    
+    			boolean aparece = false;
+    			System.out.print("palavra: ");
+    			for(int j = 0;j<letrasPalavra.length;j++) {
+    				aparece = false;
+    				for(int i = 0 ; i<letrasDigitadas.length;i++) {
+    					if(letrasDigitadas[i] != null){
+    						if(letrasDigitadas[i].equals(String.valueOf(letrasPalavra[j]) )){
+    							aparece = true;	   						
+    						}		  
+    					}
+    				}
+    				if(aparece) {
+    					System.out.print(" "+letrasPalavra[j] );
+    				}else System.out.print(" *");
+    			}
+    			System.out.print(" chances: "+(5-erros));
+    			System.out.print(" letras digitas: ");
+    			for(int i = 0 ; i<letrasDigitadas.length;i++) {
+    				if(letrasDigitadas[i] != null){
+    					System.out.print(" "+letrasDigitadas[i]);
+    				}
+    			}
+    			System.out.print("\n");
     }
     static void Sair() {
     	  System.out.print("Você saiu. Obrigado por jogar!!\n");       
@@ -548,13 +569,13 @@ public class JogoDaForca {
     	*/
     	
     	// cadastroAuto deve ter tamanho [4][5];
-    	String[][] cadastroAuto = 	{{"nome","ana","joao","anakin","luke"},
-    								{"animal","bode","cachorro","gato","mico leao dourado"},
-    								{"objeto","bola","celular","mouse","vaca"},
-    								{"comida","arroz","feijao","jujuba","melao"}};
+    	String[][] cadastroAuto = 	{{"nome","luiza","pedro","mike","marcos"},
+    								{"animal","abelha","girafa","baleia","estrela do mar"},
+    								{"objeto","carteira","estojo","lapis","borracha"},
+    								{"comida","goiaba","queijo","suchi","pipoca"}};
     	
     	Scanner read = new Scanner(System.in);
-    	read.nextLine();
+    	
     	System.out.print("cadastrar palavras autamaticamente ira sobreescrever qualquer palavra ou tema anteriomente cadastrado.\n Deseja proseguir? 'sim'ou'nao': ");
     	if(read.nextLine().toLowerCase().equals("sim") ){
     		System.out.print("palavras cadastradas\n");
