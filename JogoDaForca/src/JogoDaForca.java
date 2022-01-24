@@ -5,12 +5,12 @@ public class JogoDaForca {
 	
 	static String[][] palavras = new String[51][51];  
 	
-	// palavras[linhas][0] armazenará os temas cadastradas
-	// palavras[linhas][colunas>0] armazenará as palavras cadastradas
+	// palavras[0<=linhas<50][0] armazenará os temas cadastradas
+	// palavras[0<=linhas<50][0<colunas<50] armazenará as palavras cadastradas
 	
 	public static void main(String[] args) {
 		int option;
-		
+		CadastroAutomatico();
 		do {
 		option = DisplayMenu();
 		
@@ -27,10 +27,8 @@ public class JogoDaForca {
 			case 4:
 				DisplayTabela();			
 				break;
+	
 			case 5:
-				CadastroAutomatico();
-				break;
-			case 6:
 				Sair();
 				break;
 			default:
@@ -44,13 +42,12 @@ public class JogoDaForca {
     	Scanner read = new Scanner(System.in);
     	int option;
     	
-    	System.out.print("\nDigite a opção desejada (1-4)\n");
+    	System.out.print("\nDigite a opção desejada (1-5)\n");
     	System.out.print("(1) Gerenciar Temas\n");
     	System.out.print("(2) Gerenciar palavras\n");
     	System.out.print("(3) Jogar\n"); 	
     	System.out.print("(4) Mostrar tabela de temas e palavras cadastradas\n");
-    	System.out.print("(5) Cadastrar temas e plavras pré selecionadas\n");
-    	System.out.print("(6) Sair\n");
+    	System.out.print("(5) Sair\n");
     	option = read.nextInt();
     	return option;
         
@@ -304,6 +301,7 @@ public class JogoDaForca {
     	    				break;
     					}
     				}
+    				System.out.print("Palavra excluida com sucesso\n");
     			}else{
     				System.out.print("tema não encontrado por favor digite um tema já cadastrado\n");	
     			}
@@ -424,7 +422,7 @@ public class JogoDaForca {
 	        		boolean letraRepetida = false;
 	        		int acertouLetra = 0;
 	        		int letrasAcertadas = 0;
-	        		int indexLetraDigitada = 0;
+	        		int indexLetraDigitada = 1;
 	        		int erros = 0;
 	        		String[] letrasDigitadas = new String[palavraJogo.length()+6];
 	                String letraDigitada;
@@ -447,7 +445,7 @@ public class JogoDaForca {
                 			letrasAcertadas++;
                 		}
                 	}	
-	                System.out.print("O JOGO COMEÇOU A PALAVRA POSSUI "+letrasPalavra.length+" LETRAS\n");
+	                System.out.print("O JOGO COMEÇOU!! A PALAVRA MISTERIO POSSUI "+letrasPalavra.length+"CARACTERES\n");
 	                do { 
 	                	// inicia o jogo
 	                	
@@ -481,9 +479,9 @@ public class JogoDaForca {
 	                	
 	                	// contabiliza os erros e/ou acertos ------------------------------------------------------------
 	                	if(acertouLetra>0) { 
-	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' pertence a palvra\n");
+	                		//System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' pertence a palavra\n");
 	                	}else { 
-	                		System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra\n");
+	                		//System.out.print("a letra'"+letrasDigitadas[indexLetraDigitada].toUpperCase()+"' nao pertence a palavra\n");
 	                		erros++;
 	                	}
 	                	
@@ -518,9 +516,12 @@ public class JogoDaForca {
 		}while(jogarNovamente);
     }
     static void StatusJogo(String[]letrasDigitadas, char[]letrasPalavra , int erros){
-    	    
+    	    /* mostra para o usuario o status do jogo apresentado a palvra isterio com '****' e 
+    	     * quando ele digitar uma letra correta substui o caracter * pela letra correspodente
+    	     * 
+    	     * */
     			boolean aparece = false;
-    			System.out.print("palavra: ");
+    			System.out.print("misterio: ");
     			for(int j = 0;j<letrasPalavra.length;j++) {
     				aparece = false;
     				for(int i = 0 ; i<letrasDigitadas.length;i++) {
@@ -534,8 +535,8 @@ public class JogoDaForca {
     					System.out.print(" "+letrasPalavra[j] );
     				}else System.out.print(" *");
     			}
-    			System.out.print(" chances: "+(5-erros));
-    			System.out.print(" letras digitas: ");
+    			System.out.print("   chances: "+(5-erros));
+    			System.out.print("   letras digitas: ");
     			for(int i = 0 ; i<letrasDigitadas.length;i++) {
     				if(letrasDigitadas[i] != null){
     					System.out.print(" "+letrasDigitadas[i]);
@@ -568,25 +569,19 @@ public class JogoDaForca {
           porém sobreecreve qualquer palavra ou tema anteriomente cadastradas.    	
     	*/
     	
-    	// cadastroAuto deve ter tamanho [4][5];
-    	String[][] cadastroAuto = 	{{"nome","luiza","pedro","mike","marcos"},
-    								{"animal","abelha","girafa","baleia","estrela do mar"},
-    								{"objeto","carteira","estojo","lapis","borracha"},
-    								{"comida","goiaba","queijo","suchi","pipoca"}};
-    	
-    	Scanner read = new Scanner(System.in);
-    	
-    	System.out.print("cadastrar palavras autamaticamente ira sobreescrever qualquer palavra ou tema anteriomente cadastrado.\n Deseja proseguir? 'sim'ou'nao': ");
-    	if(read.nextLine().toLowerCase().equals("sim") ){
-    		System.out.print("palavras cadastradas\n");
-    		
-							
-    			for(int linha = 0;linha<4;linha++){
-					for(int coluna = 0;coluna<=4;coluna++){
+    	// cadastroAuto deve ter tamanho [5][11];
+    	String[][] cadastroAuto = 	{{"animais","girafa","elefante","macaco","tubarao","formiga","abelha","rinocerante","minhoca","esponja do mar","agua viva"},
+							    	 {"comidas","macarrao","arroz","feijao","tiramisu","pizza","lasanha","pao de queijo","paella","stronoff","ovo frito"},
+							    	 {"objetos","caneta","lapis","borracha","caderno","computador","celular","carteira","esmalte","lampada","oculos"},
+							    	 {"paises","brasil","grecia","turquia","china","russia","roma","australia","filipinas","nova zelandia","nepal"},
+							    	 {"filmes","procurando nemo","mulan","senhor dos aneis","clube da luta","the joker","bastardos inglorios","django livre","o fabuloso destino de amelie poulain","memento","o estranho mundo de jack"} };
+							    								    	
+    			for(int linha = 0;linha<5;linha++){
+					for(int coluna = 0;coluna<11;coluna++){
 						palavras[linha][coluna] = cadastroAuto[linha][coluna];
 						}
     				}
-    	}
+    	
     }
     public static int generateRandomIntIntRange(int min, int max) {
         Random r = new Random();
