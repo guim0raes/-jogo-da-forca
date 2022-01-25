@@ -443,8 +443,8 @@ public class JogoDaForca {
 	             
 	                //inciar os caracter " " e "" para o uzario não precisar contabiliza-los para ganhar o jogo e evitar erros de digitação
 	                
-	                letrasDigitadas[0]= "";
-	                letrasDigitadas[1]=" ";
+	                
+	                letrasDigitadas[0]=" ";
 	                for(int aux=0;aux<palavraJogo.length();aux++){
                 		if(" ".equals( String.valueOf(letrasPalavra[aux]) )){
                 			acertouLetra++;
@@ -543,7 +543,7 @@ public class JogoDaForca {
     			}
     			System.out.print("   chances: "+(5-erros));
     			System.out.print("   letras digitas: ");
-    			for(int i = 1 ; i<letrasDigitadas.length;i++) {
+    			for(int i = 0 ; i<letrasDigitadas.length;i++) {
     				if(letrasDigitadas[i] != null){
     					System.out.print(" "+letrasDigitadas[i]);
     				}
