@@ -5,7 +5,7 @@ public class JogoDaForca {
 	
 	static String[][] palavras = new String[51][51];  
 	
-	// palavras[0<=linhas<50][0] armazenará os temas cadastradas
+	// palavras[0<=linhas<50][0] armazenará os temas cadastradas 
 	// palavras[0<=linhas<50][0<colunas<50] armazenará as palavras cadastradas
 	
 	public static void main(String[] args) {
@@ -35,7 +35,7 @@ public class JogoDaForca {
 				System.out.print("\nATENÇÃO DIGITE UM NUMERO ENTRE 1 E 6\n");
 				break;
 			}
-		}while(option != 6);
+		}while(option != 5);
              
 	}
     static int DisplayMenu() {
@@ -395,6 +395,11 @@ public class JogoDaForca {
 			jogarNovamente = false;
 			temaRepetido = false;
 	    	System.out.print("Digite um tema para jogar\n");
+	    	for(int i = 0;i<=50;i++) {
+	    		if(palavras[i][0] != null) {
+	    		System.out.print("'"+palavras[i][0]+"'");
+	    		}else break;
+	    	}
 	    	temaDigitado = read.nextLine();
 	    	
 	    	// indentificar o tema desejado
@@ -436,16 +441,17 @@ public class JogoDaForca {
 	                }
 	                System.out.print("\n");*/
 	             
-	                //inciar os caracter " " para o uzario não precisar contabiliza-los para ganhar o jogo e evitar erros de digitação
+	                //inciar os caracter " " e "" para o uzario não precisar contabiliza-los para ganhar o jogo e evitar erros de digitação
 	                
-	                letrasDigitadas[0]= " ";  
+	                letrasDigitadas[0]= "";
+	                letrasDigitadas[1]=" ";
 	                for(int aux=0;aux<palavraJogo.length();aux++){
                 		if(" ".equals( String.valueOf(letrasPalavra[aux]) )){
                 			acertouLetra++;
                 			letrasAcertadas++;
                 		}
                 	}	
-	                System.out.print("O JOGO COMEÇOU!! A PALAVRA MISTERIO POSSUI "+letrasPalavra.length+"CARACTERES\n");
+	                System.out.print("O JOGO COMEÇOU!! A PALAVRA MISTERIO POSSUI "+letrasPalavra.length+" CARACTERES\n");
 	                do { 
 	                	// inicia o jogo
 	                	
@@ -466,7 +472,7 @@ public class JogoDaForca {
 	                		System.out.print("tente outra letra\n");
 	                		continue;
 	                	}else{
-	                		letrasDigitadas[indexLetraDigitada] = letraDigitada;
+	                		letrasDigitadas[indexLetraDigitada] = letraDigitada.toLowerCase();
 	                	}
 	                	
 	                	//confere se a letra digitada pertence a palavra misterio ------------------------------
@@ -537,7 +543,7 @@ public class JogoDaForca {
     			}
     			System.out.print("   chances: "+(5-erros));
     			System.out.print("   letras digitas: ");
-    			for(int i = 0 ; i<letrasDigitadas.length;i++) {
+    			for(int i = 1 ; i<letrasDigitadas.length;i++) {
     				if(letrasDigitadas[i] != null){
     					System.out.print(" "+letrasDigitadas[i]);
     				}
@@ -570,11 +576,11 @@ public class JogoDaForca {
     	*/
     	
     	// cadastroAuto deve ter tamanho [5][11];
-    	String[][] cadastroAuto = 	{{"animais","girafa","elefante","macaco","tubarao","formiga","abelha","rinocerante","minhoca","esponja do mar","agua viva"},
-							    	 {"comidas","macarrao","arroz","feijao","tiramisu","pizza","lasanha","pao de queijo","paella","stronoff","ovo frito"},
-							    	 {"objetos","caneta","lapis","borracha","caderno","computador","celular","carteira","esmalte","lampada","oculos"},
-							    	 {"paises","brasil","grecia","turquia","china","russia","roma","australia","filipinas","nova zelandia","nepal"},
-							    	 {"filmes","procurando nemo","mulan","senhor dos aneis","clube da luta","the joker","bastardos inglorios","django livre","o fabuloso destino de amelie poulain","memento","o estranho mundo de jack"} };
+    	String[][] cadastroAuto = 	{{"animal","girafa","elefante","macaco","tubarao","formiga","abelha","rinocerante","minhoca","esponja do mar","agua viva"},
+							    	 {"comida","macarrao","arroz","feijao","tiramisu","pizza","lasanha","pao de queijo","paella","stronoff","ovo frito"},
+							    	 {"objeto","caneta","lapis","borracha","caderno","computador","celular","carteira","esmalte","lampada","oculos"},
+							    	 {"pais","brasil","grecia","turquia","china","russia","roma","australia","filipinas","nova zelandia","nepal"},
+							    	 {"filme","procurando nemo","mulan","senhor dos aneis","clube da luta","the joker","bastardos inglorios","django livre","o fabuloso destino de amelie poulain","memento","o estranho mundo de jack"} };
 							    								    	
     			for(int linha = 0;linha<5;linha++){
 					for(int coluna = 0;coluna<11;coluna++){
